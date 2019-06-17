@@ -1,0 +1,14 @@
+body {
+  font-family: 'Avenir Next';
+}
+
+.container, #playerInput {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#error {
+  color: red;
+}
