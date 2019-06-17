@@ -1,6 +1,6 @@
 class Game {
   constructor() {
-    this.board = new Board(3);
+    this.board = new Board(4);
     this.players = [];
     this.timer = new Timer();
   }
