@@ -54,8 +54,6 @@ class Board {
     } else {
       document.getElementById("error").innerHTML = `<h2>I'm sorry, ${word} is not a valid word in English.</h2>`;
     }
-    
-    
   }
 
   // put all indices where 1st letter matches into the paths array. 
@@ -107,6 +105,55 @@ class Board {
 
   alreadyUsed(path, position) {
     return path.find(elem => elem.row == position.row && elem.col == position.col);
+  }
+
+// should use breadth-first search to check all words of X length, currently a huge mess
+  generateAllPaths(paths, length) {
+    let path = paths.shift();
+    if (dictionary.check(this.getWordFromPath(path)) && this.getWordFromPath(path).length > 4) console.log(this.getWordFromPath(path));
+    if (path.length < length) {
+      let position = path[path.length-1];
+      //console.log(path, position);
+      let rowStart = position.row - 1 < 0 ? 0 : position.row - 1;
+      let colStart = position.col - 1 < 0 ? 0 : position.col - 1;
+      let rowEnd = position.row + 2 > this.dimension ? this.dimension : position.row + 2;
+      let colEnd = position.col + 2 > this.dimension ? this.dimension : position.col + 2;
+      for (var i=rowStart; i< rowEnd; i++) {
+        for (var j=colStart; j< colEnd; j++) {
+          if (!(position.row == i && position.col == j) && !this.alreadyUsed(path, {row: i, col: j})) {
+            let pathCopy = Array.from(path);
+            pathCopy.push({row: i, col: j, letter: this.letterMatrix[i][j]});
+            paths.push(pathCopy);
+          }
+        }
+      }
+      //this.generateAllPaths(paths, length);
+    } else {
+      paths.forEach(path => {
+        let word = this.getWordFromPath(path);
+        if (word.length > 3 && dictionary.check(word)) {
+          this.highlightWord(word);
+          console.log(word);
+        }
+        if (path.length > length) paths.remove(path);
+      });
+    }
+  }
+
+
+  findAllWords(length) {
+    let paths = [];
+    for (var i=0; i<this.dimension; i++) {
+      for (var j=0; j<this.dimension; j++) {
+        paths.push([{row: i, col: j, letter: this.letterMatrix[i][j]}]);
+      }
+    }
+    this.generateAllPaths(paths, length);
+    //console.log(paths);
+  }
+
+  getWordFromPath(path) {
+    return path.reduce((acc, val) => acc.concat(val.letter), "");
   }
 
 
