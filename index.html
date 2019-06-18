@@ -12,37 +12,9 @@
     <div class="heading">
       <h1>Boggle</h1>
     </div>
-    <div class="player-input">
-      <div class="entry-row">
-        <input type="text" id="word-entry">
-        <button type="button" id="enter-button">Find Word</button>
-      </div>
-      <div id="error"></div>
-    </div>
-    <div class="board-list-row">
-      <div id="canvas">
-      </div>
-      <div class="right-panel" id="player-display-list">
-        <div class="player-display">
-          <span>Player 1</span>
-          <div id="-timer" class="timer"></div>
-          <h3 class="list-header">Words Found:</h3>
-          <div id="score" class="score">Score: 0</div>
-          <ol>
-            <div id="player-list"></div>
-          </ol>
-        </div>
-      </div>
-    </div>
-    <div class="auto-solve">
-      <div><span>Solutions:</span></div>
-      <div><input type="number" id="min" value="4"> to <input type="number" id="max" value="8"> Letters</div>
-      <button type="button" id="find-all">Find All <span id="waiting">⌛</span></button>
-    </div>
-    <ol><div id="full-list"></div></ol>
 
-<!-- Settings pane, normally hidden -->
-    <div class="settings">
+    <!-- Settings pane, normally hidden -->
+    <div id="settings">
       <form class="settings">
         <h3>Players</h3>
         <div id="players-list">
@@ -64,9 +36,42 @@
           <label><input type="checkbox" id="scrabble">Scrabble-style - each player has a 2 minute turn to find the longest word he can</label>
         </div>
         <button type="button" id="new-game" onclick="newGame()">Start Playing!</button>
-      </form>
-      
+      </form> 
     </div>
+
+    <!-- Main game! -->
+    <div id="game">
+      <div class="player-input">
+        <div class="entry-row">
+          <input type="text" id="word-entry">
+          <button type="button" id="enter-button">Find Word</button>
+        </div>
+        <div id="error"></div>
+      </div>
+      <div class="board-list-row">
+        <div id="canvas">
+        </div>
+        <div class="right-panel" id="player-display-list">
+          <!-- <div class="player-display">
+            <span></span>
+            <div id="-timer" class="timer"></div>
+            <h3 class="list-header">Words Found:</h3>
+            <div id="score" class="score">Score: 0</div>
+            <ol>
+              <div id="player-list"></div>
+            </ol>
+          </div> -->
+        </div>
+      </div>
+      <div class="auto-solve">
+        <div><span>Solutions:</span></div>
+        <div><input type="number" id="min" value="4"> to <input type="number" id="max" value="8"> Letters</div>
+        <button type="button" id="find-all">Find All <span id="waiting">⌛</span></button>
+      </div>
+      <ol><div id="full-list"></div></ol>
+    </div>
+
+
 
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>

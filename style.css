@@ -13,6 +13,10 @@ body {
   width: 1000px;
 }
 
+#game {
+  visibility: hidden;
+}
+
 .player-input {
   display: flex;
   flex-direction: column;
@@ -74,6 +78,7 @@ body {
 div span {
   font-size: 1.5em;
   font-weight: 700;
+  width: 50%;
 }
 
 .timer {

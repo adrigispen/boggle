@@ -1,14 +1,12 @@
-
-const game = new Game();
+let game = null;
 
 function setup() {
   let canvas = createCanvas(WIDTH, HEIGHT);
   canvas.parent("canvas");
-  game.setup();
 }
 
 function draw() {
-  game.draw();
+  if (game) game.draw();
   //game.players.forEach(player => game.updateBoard(player));
   
 }
@@ -18,12 +16,18 @@ function keyPressed() {
 }
 
 function newGame() {
-  let players = [...document.getElementsByClassName("player")];
+  let players = [...document.getElementsByClassName("player")].map(elem => elem.value);
   let generous = document.getElementById("generous").checked;
   let scrabble = document.getElementById("scrabble").checked;
   let boardSize = [...document.getElementsByName("dimension")].find(elem => elem.checked).value;
   console.log(players, generous, scrabble, boardSize);
-  game = new Variant(boardSize, players, generous, scrabble);
+  game = new Game(boardSize, players, generous, scrabble);
+  game.setup();
+  document.getElementById("settings").style.display = "none";
+  document.getElementById("game").style.visibility = "visible";
+
+  document.getElementById("find-all").onclick = game.findAllWords.bind(game)
+  document.getElementById("enter-button").onclick = game.checkForWord.bind(game)
 }
 
 function addPlayerInput() {
@@ -40,8 +44,7 @@ function addPlayerInput() {
   playersList.appendChild(row);
 }
 
-document.getElementById("find-all").onclick = game.findAllWords.bind(game)
-document.getElementById("enter-button").onclick = game.checkForWord.bind(game)
+
 // (min, max);
 
 

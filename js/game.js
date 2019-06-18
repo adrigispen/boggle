@@ -1,8 +1,14 @@
 class Game {
-  constructor() {
-    this.board = new Board(4);
+  constructor(boardSize, playerNames, generous, scrabble) {
+    this.board = new Board(boardSize);
     this.players = [];
-    this.players.push(new Player("Player 1"));
+    playerNames.forEach(name => {
+      let newPlayer = new Player(name);
+      newPlayer.addToBoard(name);
+      this.players.push(newPlayer);
+    });
+    this.generous = generous;
+    this.scrabble = scrabble;
     //this.timer = new Timer();
   }
 
@@ -14,7 +20,7 @@ class Game {
   draw() {
     //image(this.background, 0, 0, this.background.width/5, this.background.height/5);
     this.board.drawBoard();
-    this.players.forEach(player => player.timer.draw(""));
+    this.players.forEach(player => player.timer.draw(player.name));
     //this.timer.draw();
 
   }

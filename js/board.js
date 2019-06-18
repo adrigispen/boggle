@@ -141,7 +141,7 @@ class Board {
         // do nothing
       } else {
         let word = this.getWordFromPath(path);
-        if (!this.words.includes(word) && dictionary.check(word)) {
+        if (!this.words.includes(word) && dictionary.check(word.toLowerCase())) {
           this.words.push(word);
         }
       }
