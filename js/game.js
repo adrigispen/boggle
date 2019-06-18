@@ -36,12 +36,32 @@ class Game {
     }
   }
 
+  getCurrentPlayer() {
+    return this.players.find(player => player.playingNow);
+  }
+
   checkForWord() {
     clear();
     document.getElementById("error").innerHTML = "";
     let input = document.getElementById("word-entry");
-    this.board.highlightWord(input.value, this.players[0]);
+    this.board.highlightWord(input.value, this.getCurrentPlayer());
     input.value = "";
+    if (this.scrabble) this.changePlayer();
+  }
+
+  changePlayer() {
+    for (var i=0; i<this.players.length; i++) {
+      if (this.players[i].playingNow) {
+        let newIndex = (i+1) % this.players.length;
+        this.players[i].playingNow = false;
+        document.getElementById(this.players[i].name + "-name").style.color = "#000";
+        this.players[i].timer.stopTimer();
+        this.players[newIndex].playingNow = true;
+        document.getElementById(this.players[newIndex].name + "-name").style.color = "#4D0DF9";
+        this.players[newIndex].timer.startTimer();
+        break;
+      }
+    }
   }
 
   findAllWords() {

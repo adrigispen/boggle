@@ -1,9 +1,9 @@
 class Timer {
   constructor() {
     this.currentTime = 0;
-    this.intervalId = setInterval(() => {
-      this.currentTime += 1;
-    }, 1000);
+    // this.intervalId = setInterval(() => {
+    //   this.currentTime += 1;
+    // }, 1000);
   }
 
   draw(name) {
@@ -18,7 +18,14 @@ class Timer {
     clearInterval(this.intervalId);
   }
 
+  startTimer() {
+    this.intervalId = setInterval(() => {
+      this.currentTime += 1;
+    }, 1000);
+  }
+
   resetTimer() {
     this.currentTime = 0;
   }
+
 }

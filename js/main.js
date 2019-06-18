@@ -23,6 +23,7 @@ function newGame() {
   console.log(players, generous, scrabble, boardSize);
   game = new Game(boardSize, players, generous, scrabble);
   game.setup();
+  game.players[0].setCurrentPlayer();
   document.getElementById("settings").style.display = "none";
   document.getElementById("game").style.visibility = "visible";
 

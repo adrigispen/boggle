@@ -48,11 +48,11 @@ class Board {
           fill(color("#E7FEDF"));
           rect(SQUARE_SIDE*position.col, SQUARE_SIDE*position.row, SQUARE_SIDE, SQUARE_SIDE);
         }); 
-        if (!player.words.includes(word)) {
-          document.getElementById("player-list").innerHTML += `<li>${word}</li>`;
+        if (!game.players.map(player => player.words).reduce((acc, cv) => acc.concat(cv), []).includes(word)) {
+          document.getElementById(player.name + "-player-list").innerHTML += `<li>${word}</li>`;
           player.score += word.length*10;
           player.words.push(word);
-          document.getElementById("score").innerHTML = `Score: ${player.score}`;
+          document.getElementById(player.name + "-score").innerHTML = `Score: ${player.score}`;
         } else {
           error.innerHTML = `<h2>${word[0].toUpperCase() + word.slice(1)} already found!</h2>`;
         }

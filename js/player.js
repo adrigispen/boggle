@@ -4,6 +4,13 @@ class Player {
     this.timer = new Timer();
     this.words = [];
     this.score = 0;
+    this.playingNow = false;
+  }
+
+  setCurrentPlayer() {
+    this.playingNow = true;
+    document.getElementById(this.name + "-name").style.color = "#4D0DF9";
+    this.timer.startTimer();
   }
 
   addToBoard() {
@@ -11,6 +18,7 @@ class Player {
     let wrapper = document.createElement("div");
     wrapper.classList.add("player-display");
     let name = document.createElement("span");
+    name.id = this.name + "-name";
     name.innerHTML = this.name;
     let timer = document.createElement("div");
     timer.id = this.name + "-timer";
