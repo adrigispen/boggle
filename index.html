@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Adriemma</title>
+  <title>Boggle</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,12 +22,12 @@
     <div class="board-list-row">
       <div id="canvas">
       </div>
-      <div class="right-panel">
-        <div class="player">
+      <div class="right-panel" id="player-display-list">
+        <div class="player-display">
           <span>Player 1</span>
-          <div id="timer"></div>
+          <div id="-timer" class="timer"></div>
           <h3 class="list-header">Words Found:</h3>
-          <div id="score">Score: 0</div>
+          <div id="score" class="score">Score: 0</div>
           <ol>
             <div id="player-list"></div>
           </ol>
@@ -40,6 +40,34 @@
       <button type="button" id="find-all">Find All <span id="waiting">⌛</span></button>
     </div>
     <ol><div id="full-list"></div></ol>
+
+<!-- Settings pane, normally hidden -->
+    <div class="settings">
+      <form class="settings">
+        <h3>Players</h3>
+        <div id="players-list">
+          <div class="player-row">
+            <label>Player Name</label>
+            <input class="player" type="text" value="">
+          </div>
+        </div>
+        <button type="button" id="add-player" onclick="addPlayerInput()">Add Another...</button>
+        <h3>Board size</h3>
+        <div class="board">
+          <label><input type="radio" value="3" name="dimension">3x3</label>
+          <label><input type="radio" value="4" name="dimension">4x4</label>
+          <label><input type="radio" value="5" name="dimension">5x5</label>
+        </div>
+        <h3>Variant</h3>
+        <div class="variant">
+          <label><input type="checkbox" id="generous">Generous - letters can be used more than once</label>
+          <label><input type="checkbox" id="scrabble">Scrabble-style - each player has a 2 minute turn to find the longest word he can</label>
+        </div>
+        <button type="button" id="new-game" onclick="newGame()">Start Playing!</button>
+      </form>
+      
+    </div>
+
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
   <script src="Typo.js-master/typo/typo.js"></script>
@@ -47,6 +75,7 @@
   <script src="js/timer.js"></script>
   <script src="js/board.js"></script>
   <script src="js/player.js"></script>
+  <script src="js/variant.js"></script>
   <script src="js/game.js"></script>
   <script src="js/main.js"></script>
 </body>

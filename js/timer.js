@@ -6,8 +6,8 @@ class Timer {
     }, 1000);
   }
 
-  draw() {
-    document.getElementById("timer").innerHTML = this.getTime();
+  draw(name) {
+    document.getElementById(name + "-timer").innerHTML = this.getTime();
   }
 
   getTime() {

@@ -62,12 +62,12 @@ body {
   display: inline-block;
 }
 
-#score {
+.score {
   float: right;
   margin: 1em;
 }
 
-.player {
+.player-display {
   margin-top: 20px;
 }
 
@@ -76,7 +76,7 @@ div span {
   font-weight: 700;
 }
 
-#timer {
+.timer {
   float: right;
   margin: 5px 8px 5px 0;
 }
@@ -107,4 +107,24 @@ div span {
 
 #full-list {
   width: 100%;
+}
+
+.settings {
+  width: 500px;
+}
+
+.variant, .board {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.player-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.player-row input {
+  width: 70%;
 }
