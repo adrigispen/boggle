@@ -17,5 +17,10 @@ function keyPressed() {
   game.keyPressed();
 }
 
+let min = Number(document.getElementById("min").value);
+let max = Number(document.getElementById("max").value);
+document.getElementById("find-all").onclick = game.board.findAllWords.bind(game.board)
+// (min, max);
+
 
 

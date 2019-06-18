@@ -47,7 +47,7 @@ class Board {
           fill(color("#E7FEDF"));
           rect(SQUARE_SIDE*position.col, SQUARE_SIDE*position.row, SQUARE_SIDE, SQUARE_SIDE);
         }); 
-        document.getElementById("found").innerHTML += `<br>${word}`;
+        document.getElementById("player-list").innerHTML += `<li>${word}</li>`;
       } else {
         document.getElementById("error").innerHTML = `<h2>I'm sorry, ${word} isn't on the board!</h2>`;
       }
@@ -72,6 +72,7 @@ class Board {
   }
 
   checkNeighbors(paths, fullWord) {
+    if (paths.length == 0) return "nothing found";
     let path = paths.pop();
     if (path.length == fullWord.length) return path;
     let next = fullWord[path.length];
@@ -107,7 +108,9 @@ class Board {
   }
 
 
-  findAllWords(min, max) {
+  findAllWords() {
+    let min = Number(document.getElementById("min").value);
+    let max = Number(document.getElementById("max").value);
     this.words = [];
     let paths = [];
     for (var i=0; i<this.dimension; i++) {
@@ -118,6 +121,7 @@ class Board {
     let n=2;
     while (n<=max) {
       this.generateNextHopPaths(paths, n);
+      //if (n>4) this.purgeBadPaths(paths);
       n++;
     }
     paths.forEach(path => {
@@ -159,11 +163,12 @@ class Board {
     });
   }
 
+
   printAllWords() {
     if (!this.words) return;
-    let html = "<ol>";
+    let html = "";
     this.words.forEach(word => html += `<li>${word}</li>`);
-    document.getElementById("full-list").innerHTML = html + "</ol>";
+    document.getElementById("full-list").innerHTML = html;
   }
 
 }

@@ -31,4 +31,4 @@ const letters = [
   "y", "y", "y", 
   "z"];
 
-const vowels = ["a", "e", "i", "o", "u"];
+const vowels = ["A", "E", "I", "O", "U"];

@@ -11,17 +11,34 @@
   <div class="container">
     <div class="heading">
       <h1>Boggle</h1>
-      <div id="timer"></div>
     </div>
-    <div id="canvas">
+    <div class="player-input">
+      <div class="entry-row">
+        <input type="text" id="word-entry">
+        <button type="button" id="enter-button">Find Word</button>
+      </div>
+      <div id="error"></div>
     </div>
-    <div id="error"></div>
-    <div id="found"></div>
-    <div id="playerInput">
-      <button type="button" id="reset">New Game</button>
-      <input type="text" id="wordEntry">
+    <div class="board-list-row">
+      <div id="canvas">
+      </div>
+      <div class="right-panel">
+        <div class="player">
+          <span>Player 1</span>
+          <div id="timer"></div>
+          <h3 class="list-header">Words Found:</h3>
+          <ol>
+            <div id="player-list"></div>
+          </ol>
+        </div>
+      </div>
     </div>
-    <div id="full-list"></div>
+    <div class="auto-solve">
+      <div><span>Solutions:</span></div>
+      <div><input type="number" id="min"> to <input type="number" id="max"> Letters</div>
+      <button type="button" id="find-all">Find All</button>
+    </div>
+    <ol><div id="full-list"></div></ol>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
   <script src="typo/typo.js"></script>

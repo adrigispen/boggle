@@ -21,7 +21,7 @@ class Game {
     if (keyCode == 13) {
       clear();
       document.getElementById("error").innerHTML = "";
-      let input = document.getElementById("wordEntry");
+      let input = document.getElementById("word-entry");
       this.board.highlightWord(input.value);
       input.value = "";
     }
