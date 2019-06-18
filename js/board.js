@@ -177,8 +177,10 @@ class Board {
   }
 
   printAllWords() {
-    if (!this.words) return;
     let html = "";
+    if (this.words.length == 0) {
+      html += "No words found.";
+    }
     this.words.forEach(word => html += `<li>${word}</li>`);
     document.getElementById("full-list").innerHTML = html;
   }
