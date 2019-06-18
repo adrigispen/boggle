@@ -42,7 +42,11 @@ class Game {
     document.getElementById("waiting").style.display = "inline";
     let min = Number(document.getElementById("min").value);
     let max = Number(document.getElementById("max").value);
-    setTimeout(() => this.board.findAllWords(min, max), 100);
+    if (min == 0 || max == 0) {
+      setTimeout(() => this.board.findAllWords(3, 8), 100);
+    } else {
+      setTimeout(() => this.board.findAllWords(min, max), 100);
+    }
   }
 
 }
