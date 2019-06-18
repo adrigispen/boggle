@@ -9,7 +9,7 @@ function setup() {
 
 function draw() {
   game.draw();
-  game.players.forEach(player => game.updateBoard(player));
+  //game.players.forEach(player => game.updateBoard(player));
   
 }
 
@@ -17,9 +17,8 @@ function keyPressed() {
   game.keyPressed();
 }
 
-let min = Number(document.getElementById("min").value);
-let max = Number(document.getElementById("max").value);
-document.getElementById("find-all").onclick = game.board.findAllWords.bind(game.board)
+document.getElementById("find-all").onclick = game.findAllWords.bind(game)
+document.getElementById("enter-button").onclick = game.checkForWord.bind(game)
 // (min, max);
 
 

@@ -58,6 +58,15 @@ body {
   padding: 0 20px;
 }
 
+.right-panel h3 {
+  display: inline-block;
+}
+
+#score {
+  float: right;
+  margin: 1em;
+}
+
 .player {
   margin-top: 20px;
 }
@@ -69,7 +78,7 @@ div span {
 
 #timer {
   float: right;
-  margin: 5px 8px 0 0;
+  margin: 5px 8px 5px 0;
 }
 
 .auto-solve {
@@ -87,9 +96,13 @@ div span {
 }
 
 .auto-solve button {
-  width: 35%;
+  width: 30%;
   height: 40px;
   font-size: 1em;
+}
+
+#waiting {
+  display: none;
 }
 
 #full-list {

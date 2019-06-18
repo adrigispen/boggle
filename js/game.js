@@ -2,6 +2,7 @@ class Game {
   constructor() {
     this.board = new Board(4);
     this.players = [];
+    this.players.push(new Player());
     this.timer = new Timer();
   }
 
@@ -19,12 +20,29 @@ class Game {
 
   keyPressed() {
     if (keyCode == 13) {
-      clear();
-      document.getElementById("error").innerHTML = "";
-      let input = document.getElementById("word-entry");
-      this.board.highlightWord(input.value);
-      input.value = "";
+      this.checkForWord();
+      // clear();
+      // document.getElementById("error").innerHTML = "";
+      // let input = document.getElementById("word-entry");
+      // this.board.highlightWord(input.value);
+      // input.value = "";
     }
+  }
+
+  checkForWord() {
+    clear();
+    document.getElementById("error").innerHTML = "";
+    let input = document.getElementById("word-entry");
+    this.board.highlightWord(input.value, this.players[0]);
+    input.value = "";
+  }
+
+  findAllWords() {
+    document.getElementById("waiting").style.visibility = "visible";
+    document.getElementById("waiting").style.display = "inline";
+    let min = Number(document.getElementById("min").value);
+    let max = Number(document.getElementById("max").value);
+    setTimeout(() => this.board.findAllWords(min, max), 100);
   }
 
 }

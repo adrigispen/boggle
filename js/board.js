@@ -38,7 +38,8 @@ class Board {
     line(this.dimension*SQUARE_SIDE, 0, SQUARE_SIDE*this.dimension, this.dimension*SQUARE_SIDE);
   }
 
-  highlightWord(word) {
+  highlightWord(word, player) {
+    let error = document.getElementById("error");
     if (dictionary.check(word)) {
       let squares = this.findWord(word);
       if (Array.isArray(squares)) {
@@ -47,16 +48,26 @@ class Board {
           fill(color("#E7FEDF"));
           rect(SQUARE_SIDE*position.col, SQUARE_SIDE*position.row, SQUARE_SIDE, SQUARE_SIDE);
         }); 
-        document.getElementById("player-list").innerHTML += `<li>${word}</li>`;
+        if (!player.words.includes(word)) {
+          document.getElementById("player-list").innerHTML += `<li>${word}</li>`;
+          player.score += word.length*10;
+          player.words.push(word);
+          document.getElementById("score").innerHTML = `Score: ${player.score}`;
+        } else {
+          error.innerHTML = `<h2>${word[0].toUpperCase() + word.slice(1)} already found!</h2>`;
+        }
+        
       } else {
-        document.getElementById("error").innerHTML = `<h2>I'm sorry, ${word} isn't on the board!</h2>`;
+        error.innerHTML = `<h2>I'm sorry, ${word} isn't on the board!</h2>`;
       }
     } else {
-      document.getElementById("error").innerHTML = `<h2>I'm sorry, ${word} is not a valid word in English.</h2>`;
+      error.innerHTML = `<h2>I'm sorry, ${word} is not a valid word in English.</h2>`;
     }
   }
 
-  // put all indices where 1st letter matches into the paths array. 
+  
+// checks if words are on the board
+
   findWord(word) {
     let paths = [];
     let letter = word[0].toUpperCase();
@@ -108,9 +119,11 @@ class Board {
   }
 
 
-  findAllWords() {
-    let min = Number(document.getElementById("min").value);
-    let max = Number(document.getElementById("max").value);
+
+
+  // Print generated solutions
+
+  findAllWords(min, max) {
     this.words = [];
     let paths = [];
     for (var i=0; i<this.dimension; i++) {
@@ -121,7 +134,6 @@ class Board {
     let n=2;
     while (n<=max) {
       this.generateNextHopPaths(paths, n);
-      //if (n>4) this.purgeBadPaths(paths);
       n++;
     }
     paths.forEach(path => {
@@ -129,13 +141,14 @@ class Board {
         // do nothing
       } else {
         let word = this.getWordFromPath(path);
-        if (word.length > min && !this.words.includes(word) && dictionary.check(word)) {
+        if (!this.words.includes(word) && dictionary.check(word)) {
           this.words.push(word);
         }
       }
     });
     this.printAllWords();
-    
+    document.getElementById("waiting").style.visibility = "hidden";
+    document.getElementById("waiting").style.display = "none";
   }
 
   getWordFromPath(path) {
@@ -162,7 +175,6 @@ class Board {
       }
     });
   }
-
 
   printAllWords() {
     if (!this.words) return;
