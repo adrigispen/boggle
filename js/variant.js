@@ -1,9 +1,11 @@
-class Game {
-  constructor() {
-    this.board = new Board(4);
+class Variant extends Game {
+  constructor(boardSize, players, generous, scrabble) {
+    this.board = new Board(boardSize);
     this.players = [];
-    this.players.push(new Player("Player 1"));
-    //this.timer = new Timer();
+    players.forEach(player => this.player.push(new Player(player)));
+    this.generous = generous;
+    this.scrabble = scrabble;
+    this.timer = new Timer();
   }
 
   setup() {
@@ -14,8 +16,7 @@ class Game {
   draw() {
     //image(this.background, 0, 0, this.background.width/5, this.background.height/5);
     this.board.drawBoard();
-    this.players.forEach(player => player.timer.draw(""));
-    //this.timer.draw();
+    this.timer.draw();
 
   }
 

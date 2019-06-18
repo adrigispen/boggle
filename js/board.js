@@ -1,4 +1,4 @@
-var dictionary = new Typo("en_US", false, false, { dictionaryPath: "../typo/dictionaries" });
+var dictionary = new Typo("en_US", false, false, { dictionaryPath: "Typo.js-master/typo/dictionaries" });
 
 class Board {
   constructor(dimension) {
