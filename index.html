@@ -42,7 +42,7 @@
         <h3>Game play</h3>
         <div class="variant">
           <label><input type="checkbox" id="generous">Generous - letters can be used more than once</label>
-          <label><input type="checkbox" id="scrabble" checked="true">Scrabble-style - each player has one minute to find the longest word they can (that has not already been found)</label>
+          <label><input type="checkbox" id="speed" checked="true">Speed - players take turns finding words as quickly as possible</label>
         </div>
         <button type="button" id="new-game" onclick="newGame()">Start Playing!</button>
       </form> 
@@ -54,6 +54,7 @@
         <div class="entry-row">
           <input type="text" id="word-entry">
           <button type="button" id="enter-button">Find Word</button>
+          <button type="button" id="new-game-button">New Game</button>
         </div>
         <div id="error"></div>
       </div>

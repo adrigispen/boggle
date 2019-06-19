@@ -56,7 +56,6 @@ body {
 }
 
 .right-panel {
-  border: 1px solid grey;
   height: 600px;
   width: 50%;
   padding: 0 20px;
@@ -72,7 +71,7 @@ body {
 }
 
 .player-display {
-  margin-top: 20px;
+  margin-left: 10px;
 }
 
 div span {
@@ -92,6 +91,7 @@ div span {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-top: 10px;
 }
 
 .auto-solve input {

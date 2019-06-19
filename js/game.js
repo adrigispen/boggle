@@ -1,39 +1,31 @@
 class Game {
-  constructor(boardSize, playerNames, generous, scrabble, language) {
-    this.board = new Board(boardSize, language);
+  constructor(boardSize, playerNames, generous, speed, language) {
+    this.board = new Board(boardSize, language, generous);
     this.players = [];
+    this.generous = generous;
+    this.speed = speed;
+    this.language = language;
     playerNames.forEach(name => {
       let newPlayer = new Player(name);
-      newPlayer.addToBoard(name);
       this.players.push(newPlayer);
     });
-    this.generous = generous;
-    this.scrabble = scrabble;
-    this.language = language;
-    //this.timer = new Timer();
   }
 
   setup() {
-    this.background = loadImage("../images/layton-diament-18618-unsplash.jpg");
     this.board.setup();
+    this.players.forEach(player => player.addToBoard(player.name));
   }
   
   draw() {
-    //image(this.background, 0, 0, this.background.width/5, this.background.height/5);
     this.board.drawBoard();
     this.players.forEach(player => player.timer.draw(player.name));
-    //this.timer.draw();
 
   }
 
+  // MAKE THIS HAPPEN IN A FORM
   keyPressed() {
     if (keyCode == 13) {
       this.checkForWord();
-      // clear();
-      // document.getElementById("error").innerHTML = "";
-      // let input = document.getElementById("word-entry");
-      // this.board.highlightWord(input.value);
-      // input.value = "";
     }
   }
 
@@ -45,9 +37,10 @@ class Game {
     clear();
     document.getElementById("error").innerHTML = "";
     let input = document.getElementById("word-entry");
+    if (input.value == "") return;
     this.board.highlightWord(input.value, this.getCurrentPlayer(), this.language);
     input.value = "";
-    if (this.scrabble) this.changePlayer();
+    if (this.speed) this.changePlayer();
   }
 
   changePlayer() {
@@ -59,13 +52,25 @@ class Game {
         document.getElementById(this.players[i].name + "-timer").style.color = "#000";
         this.players[i].timer.stopTimer();
         this.players[newIndex].playingNow = true;
-        document.getElementById(this.players[newIndex].name + "-name").style.color = "#A903FC";
-        document.getElementById(this.players[newIndex].name + "-timer").style.color = "#A903FC";
+        document.getElementById(this.players[newIndex].name + "-name").style.color = PLAYING_COLOR;
+        document.getElementById(this.players[newIndex].name + "-timer").style.color = PLAYING_COLOR;
         this.players[newIndex].timer.startTimer();
         break;
       }
     }
   }
+
+/* 
+  interruptPlayer() {
+    let message = document.getElementById("error");
+    if (this.getCurrentPlayer().name == this.players[this.players.length -1].name) {
+      console.log("here");
+      message.innerHTML = "TIME'S UP!"
+    } else {
+      message.innerHTML = "TIME'S UP! Next player's turn starts soon...";
+      this.changePlayer();
+    }
+  } */
 
   findAllWords(language) {
     document.getElementById("waiting").style.visibility = "visible";

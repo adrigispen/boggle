@@ -18,11 +18,11 @@ function keyPressed() {
 function newGame() {
   let players = [...document.getElementsByClassName("player")].map(elem => elem.value);
   let generous = document.getElementById("generous").checked;
-  let scrabble = document.getElementById("scrabble").checked;
+  let speed = document.getElementById("speed").checked;
   let boardSize = [...document.getElementsByName("dimension")].find(elem => elem.checked).value;
   let language = [...document.getElementsByName("language")].find(elem => elem.checked).value;
-  console.log(players, generous, scrabble, boardSize);
-  game = new Game(boardSize, players, generous, scrabble, language);
+  console.log(players, generous, speed, boardSize);
+  game = new Game(boardSize, players, generous, speed, language);
   game.setup();
   game.players[0].setCurrentPlayer();
   document.getElementById("settings").style.display = "none";

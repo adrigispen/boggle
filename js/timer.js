@@ -8,6 +8,10 @@ class Timer {
 
   draw(name) {
     document.getElementById(name + "-timer").innerHTML = this.getTime();
+    // if (game.speed == false && this.currentTime >= 30) {
+    //   this.stopTimer();
+    //   game.interruptPlayer();
+    // }
   }
 
   getTime() {

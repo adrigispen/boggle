@@ -64,3 +64,5 @@ const de = [
   "q",
   "y"
 ]
+
+PLAYING_COLOR = "#028E5D";

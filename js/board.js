@@ -47,7 +47,6 @@ class Board {
       let squares = this.findWord(word);
       if (Array.isArray(squares)) {
         squares.forEach(position => {
-          console.log(position.row, position.col);
           fill(color("#E7FEDF"));
           rect(SQUARE_SIDE*position.col, SQUARE_SIDE*position.row, SQUARE_SIDE, SQUARE_SIDE);
         }); 
@@ -99,7 +98,8 @@ class Board {
     let colEnd = position.col + 2 > this.dimension ? this.dimension : position.col + 2;
     for (var i=rowStart; i< rowEnd; i++) {
       for (var j=colStart; j< colEnd; j++) {
-        if (this.letterMatrix[i][j] == next && !(position.row == i && position.col == j) && !this.alreadyUsed(path, {row: i, col: j})) {
+        let positionOkay = game.generous ? true : !this.alreadyUsed(path, {row: i, col: j});
+        if (this.letterMatrix[i][j] == next && !(position.row == i && position.col == j) && positionOkay) {
           if (path.length + 1 == fullWord.length) {
             paths = [];
             path.push({row: i, col: j, letter: next});
@@ -170,7 +170,8 @@ class Board {
         let colEnd = position.col + 2 > this.dimension ? this.dimension : position.col + 2;
         for (var i=rowStart; i< rowEnd; i++) {
           for (var j=colStart; j< colEnd; j++) {
-            if (!(position.row == i && position.col == j) && !this.alreadyUsed(path, {row: i, col: j})) {
+            let positionOkay = game.generous ? true : !this.alreadyUsed(path, {row: i, col: j});
+            if (!(position.row == i && position.col == j) && /* !this.alreadyUsed(path, {row: i, col: j}) */ positionOkay) {
               let pathCopy = Array.from(path);
               pathCopy.push({row: i, col: j, letter: this.letterMatrix[i][j]});
               paths.push(pathCopy);

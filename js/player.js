@@ -9,8 +9,8 @@ class Player {
 
   setCurrentPlayer() {
     this.playingNow = true;
-    document.getElementById(this.name + "-name").style.color = "#A903FC";
-    document.getElementById(this.name + "-timer").style.color = "#A903FC";
+    document.getElementById(this.name + "-name").style.color = PLAYING_COLOR;
+    document.getElementById(this.name + "-timer").style.color = PLAYING_COLOR;
     this.timer.startTimer();
   }
 
@@ -34,6 +34,7 @@ class Player {
     let orderedList = document.createElement("ol");
     let listItems = document.createElement("div");
     listItems.id = this.name + "-player-list";
+    let hr = document.createElement("hr");
 
     orderedList.appendChild(listItems);
     wrapper.appendChild(name);
@@ -41,6 +42,7 @@ class Player {
     wrapper.appendChild(heading);
     wrapper.appendChild(score);
     wrapper.appendChild(orderedList);
+    wrapper.appendChild(hr);
 
     parent.appendChild(wrapper);
     this.timer.draw(this.name);
