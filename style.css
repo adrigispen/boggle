@@ -118,7 +118,7 @@ div span {
   width: 500px;
 }
 
-.variant, .board {
+.variant, .board, .language {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

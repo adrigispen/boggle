@@ -9,7 +9,8 @@ class Player {
 
   setCurrentPlayer() {
     this.playingNow = true;
-    document.getElementById(this.name + "-name").style.color = "#4D0DF9";
+    document.getElementById(this.name + "-name").style.color = "#A903FC";
+    document.getElementById(this.name + "-timer").style.color = "#A903FC";
     this.timer.startTimer();
   }
 

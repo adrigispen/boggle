@@ -1,19 +1,21 @@
-var dictionary = new Typo("en_US", false, false, { dictionaryPath: "Typo.js-master/typo/dictionaries" });
+
 
 class Board {
-  constructor(dimension) {
+  constructor(dimension, language) {
     this.dimension = dimension;
+    this.dictionary = new Typo(language, false, false, { dictionaryPath: "Typo.js-master/typo/dictionaries" });
     this.letterMatrix = [];
     for (var i=0; i<this.dimension; i++) {
       this.letterMatrix[i] = [];
       for (var j=0; j<this.dimension; j++) {
-        this.letterMatrix[i].push(this.getRandomLetter().toUpperCase());
+        this.letterMatrix[i].push(this.getRandomLetter(language).toUpperCase());
       }
     }
   }
 
-  getRandomLetter() {
-    return letters[Math.floor(Math.random()*letters.length)];
+  getRandomLetter(language) {
+    if (language == "en_US") return en_US[Math.floor(Math.random()*en_US.length)];
+    if (language == "de") return de[Math.floor(Math.random()*de.length)]
   }
 
   setup() {
@@ -38,9 +40,10 @@ class Board {
     line(this.dimension*SQUARE_SIDE, 0, SQUARE_SIDE*this.dimension, this.dimension*SQUARE_SIDE);
   }
 
-  highlightWord(word, player) {
+  highlightWord(word, player, language) {
     let error = document.getElementById("error");
-    if (dictionary.check(word)) {
+    if (language == "de") word = word.toUpperCase();
+    if (this.dictionary.check(word)) {
       let squares = this.findWord(word);
       if (Array.isArray(squares)) {
         squares.forEach(position => {
@@ -61,7 +64,8 @@ class Board {
         error.innerHTML = `<h2>I'm sorry, ${word} isn't on the board!</h2>`;
       }
     } else {
-      error.innerHTML = `<h2>I'm sorry, ${word} is not a valid word in English.</h2>`;
+      let lang = language == "de" ? "German" : "English";
+      error.innerHTML = `<h2>I'm sorry, ${word} is not a valid word in ${lang}.</h2>`;
     }
   }
 
@@ -123,7 +127,7 @@ class Board {
 
   // Print generated solutions
 
-  findAllWords(min, max) {
+  findAllWords(min, max, language) {
     this.words = [];
     let paths = [];
     for (var i=0; i<this.dimension; i++) {
@@ -141,7 +145,8 @@ class Board {
         // do nothing
       } else {
         let word = this.getWordFromPath(path);
-        if (!this.words.includes(word) && dictionary.check(word.toLowerCase())) {
+        let checkDictionary = language == "de" ? this.dictionary.check(word) : this.dictionary.check(word.toLowerCase());
+        if (!this.words.includes(word) && checkDictionary) {
           this.words.push(word);
         }
       }
