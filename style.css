@@ -13,6 +13,10 @@ body {
   width: 1000px;
 }
 
+#game {
+  visibility: hidden;
+}
+
 .player-input {
   display: flex;
   flex-direction: column;
@@ -52,7 +56,6 @@ body {
 }
 
 .right-panel {
-  border: 1px solid grey;
   height: 600px;
   width: 50%;
   padding: 0 20px;
@@ -68,12 +71,13 @@ body {
 }
 
 .player-display {
-  margin-top: 20px;
+  margin-left: 10px;
 }
 
 div span {
   font-size: 1.5em;
   font-weight: 700;
+  width: 50%;
 }
 
 .timer {
@@ -87,6 +91,7 @@ div span {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-top: 10px;
 }
 
 .auto-solve input {
@@ -113,7 +118,7 @@ div span {
   width: 500px;
 }
 
-.variant, .board {
+.variant, .board, .language {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

@@ -1,19 +1,21 @@
-var dictionary = new Typo("en_US", false, false, { dictionaryPath: "Typo.js-master/typo/dictionaries" });
+
 
 class Board {
-  constructor(dimension) {
+  constructor(dimension, language) {
     this.dimension = dimension;
+    this.dictionary = new Typo(language, false, false, { dictionaryPath: "Typo.js-master/typo/dictionaries" });
     this.letterMatrix = [];
     for (var i=0; i<this.dimension; i++) {
       this.letterMatrix[i] = [];
       for (var j=0; j<this.dimension; j++) {
-        this.letterMatrix[i].push(this.getRandomLetter().toUpperCase());
+        this.letterMatrix[i].push(this.getRandomLetter(language).toUpperCase());
       }
     }
   }
 
-  getRandomLetter() {
-    return letters[Math.floor(Math.random()*letters.length)];
+  getRandomLetter(language) {
+    if (language == "en_US") return en_US[Math.floor(Math.random()*en_US.length)];
+    if (language == "de") return de[Math.floor(Math.random()*de.length)]
   }
 
   setup() {
@@ -38,21 +40,21 @@ class Board {
     line(this.dimension*SQUARE_SIDE, 0, SQUARE_SIDE*this.dimension, this.dimension*SQUARE_SIDE);
   }
 
-  highlightWord(word, player) {
+  highlightWord(word, player, language) {
     let error = document.getElementById("error");
-    if (dictionary.check(word)) {
+    if (language == "de") word = word.toUpperCase();
+    if (this.dictionary.check(word)) {
       let squares = this.findWord(word);
       if (Array.isArray(squares)) {
         squares.forEach(position => {
-          console.log(position.row, position.col);
           fill(color("#E7FEDF"));
           rect(SQUARE_SIDE*position.col, SQUARE_SIDE*position.row, SQUARE_SIDE, SQUARE_SIDE);
         }); 
-        if (!player.words.includes(word)) {
-          document.getElementById("player-list").innerHTML += `<li>${word}</li>`;
+        if (!game.players.map(player => player.words).reduce((acc, cv) => acc.concat(cv), []).includes(word)) {
+          document.getElementById(player.name + "-player-list").innerHTML += `<li>${word}</li>`;
           player.score += word.length*10;
           player.words.push(word);
-          document.getElementById("score").innerHTML = `Score: ${player.score}`;
+          document.getElementById(player.name + "-score").innerHTML = `Score: ${player.score}`;
         } else {
           error.innerHTML = `<h2>${word[0].toUpperCase() + word.slice(1)} already found!</h2>`;
         }
@@ -61,7 +63,8 @@ class Board {
         error.innerHTML = `<h2>I'm sorry, ${word} isn't on the board!</h2>`;
       }
     } else {
-      error.innerHTML = `<h2>I'm sorry, ${word} is not a valid word in English.</h2>`;
+      let lang = language == "de" ? "German" : "English";
+      error.innerHTML = `<h2>I'm sorry, ${word} is not a valid word in ${lang}.</h2>`;
     }
   }
 
@@ -95,7 +98,8 @@ class Board {
     let colEnd = position.col + 2 > this.dimension ? this.dimension : position.col + 2;
     for (var i=rowStart; i< rowEnd; i++) {
       for (var j=colStart; j< colEnd; j++) {
-        if (this.letterMatrix[i][j] == next && !(position.row == i && position.col == j) && !this.alreadyUsed(path, {row: i, col: j})) {
+        let positionOkay = game.generous ? true : !this.alreadyUsed(path, {row: i, col: j});
+        if (this.letterMatrix[i][j] == next && !(position.row == i && position.col == j) && positionOkay) {
           if (path.length + 1 == fullWord.length) {
             paths = [];
             path.push({row: i, col: j, letter: next});
@@ -123,7 +127,7 @@ class Board {
 
   // Print generated solutions
 
-  findAllWords(min, max) {
+  findAllWords(min, max, language) {
     this.words = [];
     let paths = [];
     for (var i=0; i<this.dimension; i++) {
@@ -141,7 +145,8 @@ class Board {
         // do nothing
       } else {
         let word = this.getWordFromPath(path);
-        if (!this.words.includes(word) && dictionary.check(word)) {
+        let checkDictionary = language == "de" ? this.dictionary.check(word) : this.dictionary.check(word.toLowerCase());
+        if (!this.words.includes(word) && checkDictionary) {
           this.words.push(word);
         }
       }
@@ -165,7 +170,8 @@ class Board {
         let colEnd = position.col + 2 > this.dimension ? this.dimension : position.col + 2;
         for (var i=rowStart; i< rowEnd; i++) {
           for (var j=colStart; j< colEnd; j++) {
-            if (!(position.row == i && position.col == j) && !this.alreadyUsed(path, {row: i, col: j})) {
+            let positionOkay = game.generous ? true : !this.alreadyUsed(path, {row: i, col: j});
+            if (!(position.row == i && position.col == j) && /* !this.alreadyUsed(path, {row: i, col: j}) */ positionOkay) {
               let pathCopy = Array.from(path);
               pathCopy.push({row: i, col: j, letter: this.letterMatrix[i][j]});
               paths.push(pathCopy);
