@@ -5,6 +5,7 @@ class Game {
     this.generous = generous;
     this.speed = speed;
     this.language = language;
+    this.isOver = false;
     playerNames.forEach(name => {
       let newPlayer = new Player(name);
       this.players.push(newPlayer);
@@ -72,16 +73,54 @@ class Game {
     }
   } */
 
-  findAllWords(language) {
+  findAllWords() {
     document.getElementById("waiting").style.visibility = "visible";
     document.getElementById("waiting").style.display = "inline";
     let min = Number(document.getElementById("min").value);
     let max = Number(document.getElementById("max").value);
     if (min == 0 || max == 0) {
-      setTimeout(() => this.board.findAllWords(3, 8, language), 100);
+      setTimeout(() => this.board.findAllWords(3, 8, this.language), 100);
     } else {
-      setTimeout(() => this.board.findAllWords(min, max, language), 100);
+      setTimeout(() => this.board.findAllWords(min, max, this.language), 100);
     }
+  }
+
+  // use SORT look it up again
+  getWinner() {
+    this.players.map(player => {
+      player.timer.stopTimer();
+      player.finalScore = player.score * (1/player.timer.currentTime);
+      return player;
+    });
+    console.log(this.players);
+    //let maxScore = Math.max(this.players.map(player => player.score * (1/player.timer.currentTime)));
+    this.players.sort((a, b) => b.finalScore - a.finalScore);
+    console.log(this.players);
+    return this.players[0];
+  }
+
+  endGame() {
+    this.isOver = true;
+    let winner = this.getWinner();
+    let parent = document.getElementById("game-over");
+    let wrapper = document.createElement("div");
+    wrapper.classList.add("game-over");
+    let html = `<h2>Congratuations, ${winner.name}!</h2><ol>`;
+    this.players.forEach(player => {
+      html += `<li>${player.name}: ${player.score}, ${player.timer.currentTime}. FINAL SCORE: ${player.finalScore.toFixed(2)}</li>`;
+    });
+    html += `</ol>`;
+    wrapper.innerHTML = html;
+    parent.appendChild(wrapper);
+    let showSolns = document.createElement("button");
+    showSolns.innerHTML = "Show all words";
+    showSolns.onclick = () => this.showSolutions();
+    parent.appendChild(showSolns);
+    document.getElementById("game").style.display = "none";
+  }
+
+  showSolutions() {
+    this.findAllWords();
   }
 
 }

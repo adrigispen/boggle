@@ -188,7 +188,13 @@ class Board {
       html += "No words found.";
     }
     this.words.forEach(word => html += `<li>${word}</li>`);
-    document.getElementById("full-list").innerHTML = html;
+    if (game.isOver) {
+
+      // DO SOMETHING COOLER AND DISABLE ALL THE INTERACTIVE THINGS
+      document.getElementById("player-display-list").innerHTML = html;
+    } else {
+      document.getElementById("full-list").innerHTML = html;
+    }
   }
 
 }

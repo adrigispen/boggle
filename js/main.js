@@ -30,6 +30,7 @@ function newGame() {
 
   document.getElementById("find-all").onclick = (() => game.findAllWords(language)).bind(game)
   document.getElementById("enter-button").onclick = game.checkForWord.bind(game)
+  document.getElementById("end-game-button").onclick = game.endGame.bind(game)
 }
 
 function addPlayerInput() {

@@ -54,7 +54,6 @@
         <div class="entry-row">
           <input type="text" id="word-entry">
           <button type="button" id="enter-button">Find Word</button>
-          <button type="button" id="new-game-button">New Game</button>
         </div>
         <div id="error"></div>
       </div>
@@ -62,17 +61,9 @@
         <div id="canvas">
         </div>
         <div class="right-panel" id="player-display-list">
-          <!-- <div class="player-display">
-            <span></span>
-            <div id="-timer" class="timer"></div>
-            <h3 class="list-header">Words Found:</h3>
-            <div id="score" class="score">Score: 0</div>
-            <ol>
-              <div id="player-list"></div>
-            </ol>
-          </div> -->
         </div>
       </div>
+      <button type="button" id="end-game-button">End Game</button>
       <div class="auto-solve">
         <div><span>Solutions:</span></div>
         <div><input type="number" id="min" value="4"> to <input type="number" id="max" value="8"> Letters</div>
@@ -81,6 +72,11 @@
       <ol><div id="full-list"></div></ol>
     </div>
 
+    <!-- Game over -->
+
+    <div id="game-over">
+
+    </div>
 
 
   </div>
