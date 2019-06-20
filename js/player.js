@@ -31,7 +31,11 @@ class Player {
     let score = document.createElement("div");
     score.id = this.name + "-score";
     score.classList.add("score");
-    score.innerHTML = "Score: 0";
+    score.innerHTML = "pts: 0";
+    let scoreTimeWrapper = document.createElement("div");
+    scoreTimeWrapper.classList.add("score-time-wrapper");
+    scoreTimeWrapper.appendChild(timer);
+    scoreTimeWrapper.appendChild(score);
     let orderedList = document.createElement("ol");
     let listItems = document.createElement("div");
     listItems.id = this.name + "-player-list";
@@ -39,9 +43,8 @@ class Player {
 
     orderedList.appendChild(listItems);
     wrapper.appendChild(name);
-    wrapper.appendChild(timer);
-    wrapper.appendChild(heading);
-    wrapper.appendChild(score);
+    wrapper.appendChild(scoreTimeWrapper);
+    //wrapper.appendChild(heading);
     wrapper.appendChild(orderedList);
     wrapper.appendChild(hr);
 

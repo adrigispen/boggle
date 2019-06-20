@@ -15,7 +15,7 @@ class Timer {
   }
 
   getTime() {
-    return `${Math.floor(this.currentTime/60)} minutes, ${Math.floor(this.currentTime % 60)} seconds`; 
+    return `${Math.floor(this.currentTime/60)} mins, ${Math.floor(this.currentTime % 60)} secs`; 
   }
 
   stopTimer() {

@@ -30,11 +30,12 @@ function newGame() {
 
   document.getElementById("find-all").onclick = (() => game.findAllWords(language)).bind(game)
   document.getElementById("enter-button").onclick = game.checkForWord.bind(game)
-  document.getElementById("end-game-button").onclick = game.endGame.bind(game)
+  //document.getElementById("end-game-button").onclick = game.endGame.bind(game)
 }
 
 function addPlayerInput() {
   let playersList = document.getElementById("players-list");
+  let button = document.getElementById("add-player");
   let row = document.createElement("div");
   let label = document.createElement("label");
   label.innerHTML = "Player Name";
@@ -44,7 +45,8 @@ function addPlayerInput() {
   row.appendChild(label);
   row.appendChild(input);
   row.classList.add("player-row");
-  playersList.appendChild(row);
+  playersList.insertBefore(row, button);
+  //playersList.appendChild(row);
 }
 
 

@@ -44,6 +44,7 @@ class Board {
   highlightWord(word, player, language) {
     let error = document.getElementById("error");
     if (language == "de") word = word.toUpperCase();
+    if (language == "en_US") word = word.toLowerCase();
     if (this.dictionary.check(word)) {
       let squares = this.findWord(word);
       if (Array.isArray(squares)) {
@@ -55,7 +56,7 @@ class Board {
           document.getElementById(player.name + "-player-list").innerHTML += `<li>${word}</li>`;
           player.score += this.getScore(word);
           player.words.push(word);
-          document.getElementById(player.name + "-score").innerHTML = `Score: ${player.score}`;
+          document.getElementById(player.name + "-score").innerHTML = `pts: ${player.score}`;
         } else {
           error.innerHTML = `<h2>${word[0].toUpperCase() + word.slice(1)} already found!</h2>`;
         }
@@ -147,12 +148,13 @@ class Board {
   // Print generated solutions
 
 
-  findAllWords() {
+  findAllWords(language) {
     this.words = [];
     let dictionaryWords = Object.keys(this.dictionary.dictionaryTable);
     
     dictionaryWords.forEach(word => {
-      if (word.length > 2 && !this.words.includes(word.toUpperCase()) && Array.isArray(this.findWord(word))) {
+      let notProperNoun = language == "en_US" ? this.dictionary.check(word.toLowerCase()) : true;
+      if (notProperNoun && word.length > 2 && !this.words.includes(word.toUpperCase()) && Array.isArray(this.findWord(word))) {
         this.words.push(word.toUpperCase());
       }
     });
@@ -170,6 +172,8 @@ class Board {
     }
     this.words.forEach(word => html += `<li>${word}</li>`);
     if (game.isOver) {
+      this.createHighlightedList();
+      [...document.getElementsByClassName("score-time-wrapper")].forEach(elem => elem.style.display = "none");
 
       // DO SOMETHING COOLER AND DISABLE ALL THE INTERACTIVE THINGS
       //document.getElementById("player-display-list").innerHTML = html;
@@ -181,19 +185,16 @@ class Board {
 
   createHighlightedList() {
     let listPanel = document.getElementById("highlighted-list");
-    listPanel.style.display = "block";
-    let list = document.createElement("ol");
+    listPanel.style.display = "inline-block";
+    let list = document.createElement("ul");
     this.words.forEach(word => {
       let listItem = document.createElement("li");
       listItem.innerHTML = word;
-      console.log(game.players);
       game.players.forEach(player => {
-        console.log(player.words);
         if (player.words.includes(word.toLowerCase())) listItem.innerHTML =`<span style='color: ${player.color}'>${word}</span>`; 
       });
       list.appendChild(listItem);
     });
-    console.log(list);
     listPanel.appendChild(list);
   }
 
