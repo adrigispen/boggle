@@ -28,7 +28,10 @@ class Game {
       });
       document.getElementById("word-entry").disabled = true;
       document.getElementById("enter-button").disabled = true;
-      document.getElementById("find-all").disabled = true;
+      let button = document.getElementById("find-all");
+      button.onclick = () => location.reload();
+      button.style.backgroundColor = winner.color;
+      button.innerHTML = "Play Again";
       this.board.drawBoard();
       var overlayColor = color("white");
       overlayColor.setAlpha(220);
@@ -47,7 +50,6 @@ class Game {
       let scoresList = this.getTopScoresList();
       text(scoresList, WIDTH/2, HEIGHT-100);
       pop();
-
     }
   }
 
