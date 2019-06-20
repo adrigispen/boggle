@@ -16,7 +16,7 @@ function keyPressed() {
 function newGame() {
   let players = [...document.getElementsByClassName("player")].map(elem => elem.value);
   let generous = document.getElementById("generous").checked;
-  let speed = true; //document.getElementById("speed").checked;
+  let speed = document.getElementById("speed").checked;
   let boardSize = [...document.getElementsByName("dimension")].find(elem => elem.checked).value;
   let language = [...document.getElementsByName("language")].find(elem => elem.checked).value;
   console.log(players, generous, speed, boardSize);
@@ -35,12 +35,14 @@ function newGame() {
 
 function addPlayerInput() {
   let playersList = document.getElementById("players-list");
+  let index = [...document.getElementsByClassName("player-row")].length;
   let button = document.getElementById("add-player");
   let row = document.createElement("div");
   let label = document.createElement("label");
   label.innerHTML = "Player Name";
   let input = document.createElement("input");
   input.type = "text";
+  input.placeholder = "Player " + Number(index+1);
   input.classList.add("player");
   row.appendChild(label);
   row.appendChild(input);

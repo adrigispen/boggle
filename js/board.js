@@ -52,9 +52,11 @@ class Board {
           fill(color(player.color/* "#E7FEDF" */));
           rect(SQUARE_SIDE*position.col, SQUARE_SIDE*position.row, SQUARE_SIDE, SQUARE_SIDE);
         }); 
-        if (!game.players.map(player => player.words).reduce((acc, cv) => acc.concat(cv), []).includes(word)) {
+        let wordList = game.speed ? game.players.map(player => player.words).reduce((acc, cv) => acc.concat(cv), []) : player.words;
+        if (!wordList.includes(word)) {
           document.getElementById(player.name + "-player-list").innerHTML += `<li>${word}</li>`;
           player.score += this.getScore(word);
+          // IF NOT "speed" - NEED TO WAIT TO ADD TO THE SCORE
           player.words.push(word);
           document.getElementById(player.name + "-score").innerHTML = `pts: ${player.score}`;
         } else {
@@ -193,6 +195,7 @@ class Board {
       game.players.forEach(player => {
         if (player.words.includes(word.toLowerCase()) || player.words.includes(word.toUpperCase())) listItem.innerHTML =`<span style='color: ${player.color}'>${word}</span>`; 
       });
+      // NEED TO CHECK - IF NOT "speed", IT NEEDS TO CROSS OUT THE WORDS THAT MULTIPLE PLAYERS FOUND
       list.appendChild(listItem);
     });
     listPanel.appendChild(list);

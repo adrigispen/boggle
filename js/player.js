@@ -6,12 +6,22 @@ class Player {
     this.score = 0;
     this.color = getRandomColor();
     this.playingNow = false;
+    this.turnOver = false;
   }
 
   setCurrentPlayer() {
     this.playingNow = true;
     document.getElementById(this.name + "-name").style.color = this.color;
     document.getElementById(this.name + "-timer").style.color = this.color;
+    //document.getElementById(this.name + "-wrapper").style.height = "100%";
+    document.getElementById(this.name + "-player-list").style.display = "inline-block";
+    game.players.forEach(player => {
+      if (player.name != this.name) { 
+        //document.getElementById(player.name + "-wrapper").style.height = "100px";
+        document.getElementById(player.name + "-wrapper").style.overflowY = "hidden";
+        document.getElementById(player.name + "-player-list").style.display = "none";
+      }
+    });
     this.timer.startTimer();
   }
 
@@ -19,6 +29,7 @@ class Player {
     let parent = document.getElementById("player-display-list");
     let wrapper = document.createElement("div");
     wrapper.classList.add("player-display");
+    wrapper.id = this.name + "-wrapper";
     let name = document.createElement("span");
     name.id = this.name + "-name";
     name.innerHTML = this.name;
@@ -39,13 +50,17 @@ class Player {
     let orderedList = document.createElement("ol");
     let listItems = document.createElement("div");
     listItems.id = this.name + "-player-list";
+    let doneButton = document.createElement("button");
+    doneButton.id = this.name + "-turn-done";
+    doneButton.innerHTML = "End turn";
+    doneButton.onclick = () => game.changePlayer();
     let hr = document.createElement("hr");
 
     orderedList.appendChild(listItems);
     wrapper.appendChild(name);
     wrapper.appendChild(scoreTimeWrapper);
-    //wrapper.appendChild(heading);
     wrapper.appendChild(orderedList);
+    if (!game.speed) wrapper.appendChild(doneButton);
     wrapper.appendChild(hr);
 
     parent.appendChild(wrapper);

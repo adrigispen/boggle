@@ -25,6 +25,7 @@ class Game {
       let winner = this.getWinner();
       this.players.forEach(player => {
         document.getElementById(player.name + "-name").style.color = player.color;
+        document.getElementById(player.name + "-player-list").style.display = "inline-block";
       });
       document.getElementById("word-entry").disabled = true;
       document.getElementById("enter-button").disabled = true;
@@ -78,23 +79,35 @@ class Game {
     if (input.value == "") return;
     this.board.highlightWord(input.value, this.getCurrentPlayer(), this.language);
     input.value = "";
-    input.disabled = true;
-    if (this.speed) setTimeout(() => this.changePlayer(), 2000);
-    setTimeout(clear, 2000);
+    if (this.speed) {
+      setTimeout(() => this.changePlayer(), 1500);
+      input.disabled = true;
+    }
+    setTimeout(clear, 1500);
+    setTimeout(() => this.clearErrors(), 1500);
   }
 
   changePlayer() {
     for (var i=0; i<this.players.length; i++) {
       if (this.players[i].playingNow) {
+        // if (i=this.players.length-1 && !this.speed) {
+        //   this.isOver = true;
+        //   break;
+        // }
         let newIndex = (i+1) % this.players.length;
         this.players[i].playingNow = false;
         document.getElementById(this.players[i].name + "-name").style.color = "#000";
         document.getElementById(this.players[i].name + "-timer").style.color = "#000";
-        document.getElementById("error").innerHTML = "";
+        document.getElementById(this.players[i].name + "-wrapper").style.overflowY = "scroll";
+        document.getElementById(this.players[i].name + "-player-list").style.display = "none";
         this.players[i].timer.stopTimer();
+        if (!this.speed) this.players[i].turnOver = true;
+        document.getElementById("error").innerHTML = "";
+        if (this.players[newIndex].turnOver == true) this.findAllWords();
         this.players[newIndex].playingNow = true;
         document.getElementById(this.players[newIndex].name + "-name").style.color = this.players[newIndex].color;
         document.getElementById(this.players[newIndex].name + "-timer").style.color = this.players[newIndex].color;
+        document.getElementById(this.players[newIndex].name + "-player-list").style.display = "inline-block";
         this.players[newIndex].timer.startTimer();
         break;
       }
@@ -103,6 +116,10 @@ class Game {
     input.disabled = false;
     input.focus();
     
+  }
+
+  clearErrors() {
+    document.getElementById("error").innerHTML = "";
   }
 
   findAllWords() {
