@@ -10,7 +10,7 @@
 <body>
   <div class="container">
     <div class="heading">
-      <h1>Boggle</h1>
+      <h1>Speedy Boggle</h1>
     </div>
 
     <!-- Settings pane, normally hidden -->
@@ -51,7 +51,7 @@
           <h3>Game play</h3>
           <div class="right-col">
             <label><input type="checkbox" id="generous" checked="true">Generous - letters can be used more than once</label>
-            <label><input type="checkbox" id="speed" checked="true">Speed - players take turns finding words as quickly as possible</label>
+            <!-- <label><input type="checkbox" id="speed" checked="true">Speed - players take turns finding words as quickly as possible</label> -->
           </div>
         </div>
       </form> 
@@ -62,8 +62,11 @@
     <div id="game">
       <div class="player-input">
         <div class="entry-row">
-          <input type="text" id="word-entry">
-          <button type="button" id="enter-button">Find Word</button>
+          <div class="find">
+            <input type="text" id="word-entry">
+            <button type="button" id="enter-button">&#x1F50D;</button>
+          </div>
+          <button type="button" id="find-all">End and view solutions<span id="waiting">⌛</span></button>
         </div>
         <div id="error"></div>
       </div>
@@ -73,9 +76,6 @@
         <div class="right-panel" id="player-display-list">
         </div>
         <div class="right-panel" id="highlighted-list"></div>
-      </div>
-      <div class="auto-solve">
-        <button type="button" id="find-all">End and view solutions<span id="waiting">⌛</span></button>
       </div>
     </div>
 

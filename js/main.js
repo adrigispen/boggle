@@ -7,8 +7,6 @@ function setup() {
 
 function draw() {
   if (game) game.draw();
-  //game.players.forEach(player => game.updateBoard(player));
-  
 }
 
 function keyPressed() {
@@ -18,7 +16,7 @@ function keyPressed() {
 function newGame() {
   let players = [...document.getElementsByClassName("player")].map(elem => elem.value);
   let generous = document.getElementById("generous").checked;
-  let speed = document.getElementById("speed").checked;
+  let speed = true; //document.getElementById("speed").checked;
   let boardSize = [...document.getElementsByName("dimension")].find(elem => elem.checked).value;
   let language = [...document.getElementsByName("language")].find(elem => elem.checked).value;
   console.log(players, generous, speed, boardSize);
@@ -28,9 +26,11 @@ function newGame() {
   document.getElementById("settings").style.display = "none";
   document.getElementById("game").style.visibility = "visible";
 
-  document.getElementById("find-all").onclick = (() => game.findAllWords(language)).bind(game)
+  let findEndButton = document.getElementById("find-all");
+  findEndButton.style.display = "inline-block";
+  findEndButton.onclick = (() => game.findAllWords(language)).bind(game)
   document.getElementById("enter-button").onclick = game.checkForWord.bind(game)
-  //document.getElementById("end-game-button").onclick = game.endGame.bind(game)
+  
 }
 
 function addPlayerInput() {
@@ -46,11 +46,7 @@ function addPlayerInput() {
   row.appendChild(input);
   row.classList.add("player-row");
   playersList.insertBefore(row, button);
-  //playersList.appendChild(row);
 }
-
-
-// (min, max);
 
 
 

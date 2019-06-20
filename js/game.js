@@ -1,5 +1,5 @@
 class Game {
-  constructor(boardSize, playerNames, generous, speed, language) {
+  constructor(boardSize, playerNames, generous, speed = true, language) {
     this.board = new Board(boardSize, language, generous);
     this.players = [];
     this.generous = generous;
