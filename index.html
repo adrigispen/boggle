@@ -20,11 +20,11 @@
         <div id="players-list">
           <div class="player-row">
             <label>Player Name</label>
-            <input class="player" type="text" value="Player 1">
+            <input class="player" type="text" placeholder="Player 1">
           </div>
           <div class="player-row">
               <label>Player Name</label>
-              <input class="player" type="text" value="Player 2">
+              <input class="player" type="text" placeholder="Player 2">
             </div>
         </div>
         <button type="button" id="add-player" onclick="addPlayerInput()">Add Another...</button>
@@ -62,6 +62,7 @@
         </div>
         <div class="right-panel" id="player-display-list">
         </div>
+        <div class="right-panel" id="highlighted-list"></div>
       </div>
       <button type="button" id="end-game-button">End Game</button>
       <div class="auto-solve">
@@ -86,7 +87,6 @@
   <script src="js/timer.js"></script>
   <script src="js/board.js"></script>
   <script src="js/player.js"></script>
-  <script src="js/variant.js"></script>
   <script src="js/game.js"></script>
   <script src="js/main.js"></script>
 </body>

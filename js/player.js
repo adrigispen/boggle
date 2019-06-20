@@ -4,13 +4,14 @@ class Player {
     this.timer = new Timer();
     this.words = [];
     this.score = 0;
+    this.color = getRandomColor();
     this.playingNow = false;
   }
 
   setCurrentPlayer() {
     this.playingNow = true;
-    document.getElementById(this.name + "-name").style.color = PLAYING_COLOR;
-    document.getElementById(this.name + "-timer").style.color = PLAYING_COLOR;
+    document.getElementById(this.name + "-name").style.color = this.color;
+    document.getElementById(this.name + "-timer").style.color = this.color;
     this.timer.startTimer();
   }
 
@@ -47,4 +48,13 @@ class Player {
     parent.appendChild(wrapper);
     this.timer.draw(this.name);
   }
+}
+
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 }

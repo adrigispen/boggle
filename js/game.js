@@ -53,8 +53,8 @@ class Game {
         document.getElementById(this.players[i].name + "-timer").style.color = "#000";
         this.players[i].timer.stopTimer();
         this.players[newIndex].playingNow = true;
-        document.getElementById(this.players[newIndex].name + "-name").style.color = PLAYING_COLOR;
-        document.getElementById(this.players[newIndex].name + "-timer").style.color = PLAYING_COLOR;
+        document.getElementById(this.players[newIndex].name + "-name").style.color = this.players[newIndex].color;
+        document.getElementById(this.players[newIndex].name + "-timer").style.color = this.players[newIndex].color;
         this.players[newIndex].timer.startTimer();
         break;
       }
@@ -79,21 +79,19 @@ class Game {
     let min = Number(document.getElementById("min").value);
     let max = Number(document.getElementById("max").value);
     if (min == 0 || max == 0) {
-      setTimeout(() => this.board.findAllWords(3, 8, this.language), 100);
+      setTimeout(() => this.board.findAllWords(this.language), 100);
     } else {
-      setTimeout(() => this.board.findAllWords(min, max, this.language), 100);
+      setTimeout(() => this.board.findAllWords(this.language), 100);
     }
   }
 
-  // use SORT look it up again
   getWinner() {
     this.players.map(player => {
       player.timer.stopTimer();
-      player.finalScore = player.score * (1/player.timer.currentTime);
+      player.finalScore = player.timer.currentTime == 0 ? 0 : (player.score/player.timer.currentTime)*100;
       return player;
     });
     console.log(this.players);
-    //let maxScore = Math.max(this.players.map(player => player.score * (1/player.timer.currentTime)));
     this.players.sort((a, b) => b.finalScore - a.finalScore);
     console.log(this.players);
     return this.players[0];
@@ -121,6 +119,8 @@ class Game {
 
   showSolutions() {
     this.findAllWords();
+    document.getElementById("game").style.display = "initial";
+    this.board.createHighlightedList();
   }
 
 }
