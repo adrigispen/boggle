@@ -191,7 +191,7 @@ class Board {
       let listItem = document.createElement("li");
       listItem.innerHTML = word;
       game.players.forEach(player => {
-        if (player.words.includes(word.toLowerCase())) listItem.innerHTML =`<span style='color: ${player.color}'>${word}</span>`; 
+        if (player.words.includes(word.toLowerCase()) || player.words.includes(word.toUpperCase())) listItem.innerHTML =`<span style='color: ${player.color}'>${word}</span>`; 
       });
       list.appendChild(listItem);
     });

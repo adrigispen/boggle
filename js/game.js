@@ -24,13 +24,7 @@ class Game {
     if (this.isOver) {
       let winner = this.getWinner();
       this.players.forEach(player => {
-        if (player.name == winner.name) {
-          document.getElementById(winner.name + "-name").style.color = winner.color;
-          document.getElementById(winner.name + "-timer").style.color = winner.color;
-        } else {
-          document.getElementById(player.name + "-name").style.color = "#000";
-          document.getElementById(player.name + "-timer").style.color = "#000";
-        }
+        document.getElementById(player.name + "-name").style.color = player.color;
       });
       document.getElementById("word-entry").disabled = true;
       document.getElementById("enter-button").disabled = true;
@@ -51,7 +45,7 @@ class Game {
       textSize(20);
       textAlign(CENTER, BOTTOM);
       let scoresList = this.getTopScoresList();
-      text(scoresList, WIDTH/2, HEIGHT);
+      text(scoresList, WIDTH/2, HEIGHT-100);
       pop();
 
     }
@@ -65,9 +59,6 @@ class Game {
     return text;
   }
   
-    
-
-  // MAKE THIS HAPPEN IN A FORM
   keyPressed() {
     if (keyCode == 13) {
       this.checkForWord();
@@ -112,18 +103,6 @@ class Game {
     
   }
 
-/* 
-  interruptPlayer() {
-    let message = document.getElementById("error");
-    if (this.getCurrentPlayer().name == this.players[this.players.length -1].name) {
-      console.log("here");
-      message.innerHTML = "TIME'S UP!"
-    } else {
-      message.innerHTML = "TIME'S UP! Next player's turn starts soon...";
-      this.changePlayer();
-    }
-  } */
-
   findAllWords() {
     document.getElementById("waiting").style.visibility = "visible";
     document.getElementById("waiting").style.display = "inline";
@@ -140,26 +119,6 @@ class Game {
     this.players.sort((a, b) => b.finalScore - a.finalScore);
     return this.players[0].finalScore == 0 ? new Player("Boggle Bot") : this.players[0];
   }
-
-  // endGame() {
-  //   this.isOver = true;
-  //   let winner = this.getWinner();
-  //   let parent = document.getElementById("game-over");
-  //   let wrapper = document.createElement("div");
-  //   wrapper.classList.add("game-over");
-  //   let html = `<h2>Congratuations, ${winner.name}!</h2><ol>`;
-  //   this.players.forEach(player => {
-  //     html += `<li>${player.name}: ${player.score}, ${player.timer.currentTime}. FINAL SCORE: ${player.finalScore.toFixed(2)}</li>`;
-  //   });
-  //   html += `</ol>`;
-  //   wrapper.innerHTML = html;
-  //   parent.appendChild(wrapper);
-  //   let showSolns = document.createElement("button");
-  //   showSolns.innerHTML = "Show all words";
-  //   showSolns.onclick = () => this.showSolutions();
-  //   parent.appendChild(showSolns);
-  //   document.getElementById("game").style.display = "none";
-  // }
 
   showSolutions() {
     this.findAllWords();
