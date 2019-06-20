@@ -13,11 +13,9 @@ class Player {
     this.playingNow = true;
     document.getElementById(this.name + "-name").style.color = this.color;
     document.getElementById(this.name + "-timer").style.color = this.color;
-    //document.getElementById(this.name + "-wrapper").style.height = "100%";
     document.getElementById(this.name + "-player-list").style.display = "inline-block";
     game.players.forEach(player => {
       if (player.name != this.name) { 
-        //document.getElementById(player.name + "-wrapper").style.height = "100px";
         document.getElementById(player.name + "-wrapper").style.overflowY = "hidden";
         document.getElementById(player.name + "-player-list").style.display = "none";
       }

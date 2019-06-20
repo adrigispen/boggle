@@ -90,10 +90,6 @@ class Game {
   changePlayer() {
     for (var i=0; i<this.players.length; i++) {
       if (this.players[i].playingNow) {
-        // if (i=this.players.length-1 && !this.speed) {
-        //   this.isOver = true;
-        //   break;
-        // }
         let newIndex = (i+1) % this.players.length;
         this.players[i].playingNow = false;
         document.getElementById(this.players[i].name + "-name").style.color = "#000";
