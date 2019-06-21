@@ -100,6 +100,7 @@ class Game {
         if (!this.speed) {
           this.players[i].turnOver = true;
           document.getElementById(this.players[i].name + "-turn-done").style.display = "none";
+          document.getElementById(this.players[newIndex].name + "-turn-done").disabled = false;
         }
         document.getElementById("error").innerHTML = "";
         if (this.players[newIndex].turnOver == true) this.findAllWords();
