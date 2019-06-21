@@ -97,7 +97,10 @@ class Game {
         document.getElementById(this.players[i].name + "-wrapper").style.overflowY = "scroll";
         document.getElementById(this.players[i].name + "-player-list").style.display = "none";
         this.players[i].timer.stopTimer();
-        if (!this.speed) this.players[i].turnOver = true;
+        if (!this.speed) {
+          this.players[i].turnOver = true;
+          document.getElementById(this.players[i].name + "-turn-done").style.display = "none";
+        }
         document.getElementById("error").innerHTML = "";
         if (this.players[newIndex].turnOver == true) this.findAllWords();
         this.players[newIndex].playingNow = true;
@@ -121,8 +124,20 @@ class Game {
   findAllWords() {
     document.getElementById("waiting").style.visibility = "visible";
     document.getElementById("waiting").style.display = "inline";
+    if (!this.speed) this.calibrateScores();
     setTimeout(() => this.board.findAllWords(this.language), 100);
     this.isOver = true;
+  }
+
+  calibrateScores() {
+    let allWordsFound = this.players.map(player => player.words).reduce((acc, cv) => acc.concat(cv), []);
+    let multiples = allWordsFound.filter((elem, index, arr) => arr.indexOf(elem) === index && arr.lastIndexOf(elem) !== index);
+    this.players.forEach(player => {
+      let dups = player.words.filter(word => multiples.includes(word));
+      console.log("in player, here are the duplicates ", dups);
+      dups.forEach(elem => player.score -= this.board.getScore(elem));
+    })
+    console.log(this.players);
   }
 
   getWinner() {

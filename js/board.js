@@ -1,5 +1,3 @@
-
-
 class Board {
   constructor(dimension, language) {
     this.dimension = dimension;
@@ -49,14 +47,13 @@ class Board {
       let squares = this.findWord(word);
       if (Array.isArray(squares)) {
         squares.forEach(position => {
-          fill(color(player.color/* "#E7FEDF" */));
+          fill(color(player.color));
           rect(SQUARE_SIDE*position.col, SQUARE_SIDE*position.row, SQUARE_SIDE, SQUARE_SIDE);
         }); 
         let wordList = game.speed ? game.players.map(player => player.words).reduce((acc, cv) => acc.concat(cv), []) : player.words;
         if (!wordList.includes(word)) {
           document.getElementById(player.name + "-player-list").innerHTML += `<li>${word}</li>`;
           player.score += this.getScore(word);
-          // IF NOT "speed" - NEED TO WAIT TO ADD TO THE SCORE
           player.words.push(word);
           document.getElementById(player.name + "-score").innerHTML = `pts: ${player.score}`;
         } else {
@@ -163,8 +160,6 @@ class Board {
     this.words.sort((a, b) => a.length - b.length);
     console.log(this.words);
     this.printAllWords();
-    document.getElementById("waiting").style.visibility = "hidden";
-    document.getElementById("waiting").style.display = "none";
   }
 
   printAllWords() {
@@ -173,15 +168,14 @@ class Board {
       html += "No words found.";
     }
     this.words.forEach(word => html += `<li>${word}</li>`);
-    if (game.isOver) {
-      this.createHighlightedList();
-      [...document.getElementsByClassName("score-time-wrapper")].forEach(elem => elem.style.display = "none");
-
-      // DO SOMETHING COOLER AND DISABLE ALL THE INTERACTIVE THINGS
-      //document.getElementById("player-display-list").innerHTML = html;
-    } else {
-      document.getElementById("full-list").innerHTML = html;
-    }
+    this.createHighlightedList();
+    [...document.getElementsByClassName("score-time-wrapper")].forEach(elem => elem.style.display = "none");
+    // if (game.isOver) {
+    //   this.createHighlightedList();
+    //   [...document.getElementsByClassName("score-time-wrapper")].forEach(elem => elem.style.display = "none");
+    // } else {
+    //   document.getElementById("full-list").innerHTML = html;
+    // }
   }
 
 
@@ -189,13 +183,21 @@ class Board {
     let listPanel = document.getElementById("highlighted-list");
     listPanel.style.display = "inline-block";
     let list = document.createElement("ul");
+    let allWordsFound = game.players.map(player => player.words).reduce((acc, cv) => acc.concat(cv), []);
+    console.log(allWordsFound);
+    let multiples = allWordsFound.filter((elem, index, arr) => arr.indexOf(elem) === index && arr.lastIndexOf(elem) !== index);
+    console.log(multiples);
     this.words.forEach(word => {
       let listItem = document.createElement("li");
       listItem.innerHTML = word;
-      game.players.forEach(player => {
-        if (player.words.includes(word.toLowerCase()) || player.words.includes(word.toUpperCase())) listItem.innerHTML =`<span style='color: ${player.color}'>${word}</span>`; 
-      });
-      // NEED TO CHECK - IF NOT "speed", IT NEEDS TO CROSS OUT THE WORDS THAT MULTIPLE PLAYERS FOUND
+      if (multiples.includes(word) || multiples.includes(word.toLowerCase())) {
+        console.log("here");
+        listItem.innerHTML = `<span style="text-decoration:line-through">${word}</span>`; 
+      } else {
+        game.players.forEach(player => {
+          if (player.words.includes(word.toLowerCase()) || player.words.includes(word.toUpperCase())) listItem.innerHTML =`<span style='color: ${player.color}'>${word}</span>`; 
+        });
+      }
       list.appendChild(listItem);
     });
     listPanel.appendChild(list);
