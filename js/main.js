@@ -7,8 +7,6 @@ function setup() {
 
 function draw() {
   if (game) game.draw();
-  //game.players.forEach(player => game.updateBoard(player));
-  
 }
 
 function keyPressed() {
@@ -28,26 +26,29 @@ function newGame() {
   document.getElementById("settings").style.display = "none";
   document.getElementById("game").style.visibility = "visible";
 
-  document.getElementById("find-all").onclick = (() => game.findAllWords(language)).bind(game)
+  let findEndButton = document.getElementById("find-all");
+  findEndButton.style.display = "inline-block";
+  findEndButton.onclick = (() => game.findAllWords(language)).bind(game)
   document.getElementById("enter-button").onclick = game.checkForWord.bind(game)
+  
 }
 
 function addPlayerInput() {
   let playersList = document.getElementById("players-list");
+  let index = [...document.getElementsByClassName("player-row")].length;
+  let button = document.getElementById("add-player");
   let row = document.createElement("div");
   let label = document.createElement("label");
   label.innerHTML = "Player Name";
   let input = document.createElement("input");
   input.type = "text";
+  input.placeholder = "Player " + Number(index+1);
   input.classList.add("player");
   row.appendChild(label);
   row.appendChild(input);
   row.classList.add("player-row");
-  playersList.appendChild(row);
+  playersList.insertBefore(row, button);
 }
-
-
-// (min, max);
 
 
 

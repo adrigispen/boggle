@@ -31,8 +31,6 @@ const en_US = [
   "y", "y", "y", 
   "z"];
 
-const vowels = ["A", "E", "I", "O", "U"];
-
 const de = [
   "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", "e", 
   "n", "n", "n", "n", "n", "n", "n", "n", "n", 

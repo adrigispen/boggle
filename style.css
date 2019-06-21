@@ -5,6 +5,25 @@ body {
   align-items: center;
 }
 
+.heading {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#find-all {
+  height: 40px;
+  width: 250px;
+  font-size: 1.2em;
+  font-weight: 600;
+  border-radius: 5px;
+  background-color: darkblue;
+  color: white;
+  display: none;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -15,6 +34,7 @@ body {
 
 #game {
   visibility: hidden;
+  width: 100%;
 }
 
 .player-input {
@@ -22,25 +42,33 @@ body {
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  margin: 0 0 30px 0;
-}
-
-.player-input #word-entry {
-  width: 75%;
-  height: 40px;
-  font-size: 1.5em;
-}
-
-.player-input #enter-button {
-  width: 20%;
-  height: 40px;
-  font-size: 1.2em;
+  margin: 0 0 20px 0;
 }
 
 .entry-row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.find {
+  width: 60%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.find #word-entry {
+  width: 90%;
+  height: 40px;
+  font-size: 1.5em;
+}
+
+.find #enter-button {
+  width: 10%;
+  height: 45px;
+  font-size: 1.3em;
+  border-radius: 0 5px 5px 0;
 }
 
 #error {
@@ -57,17 +85,25 @@ body {
 
 .right-panel {
   height: 600px;
-  width: 50%;
-  padding: 0 20px;
+  padding: 0 0 0 20px;
+  width: 100%;
+  overflow-y: scroll;
 }
 
 .right-panel h3 {
   display: inline-block;
 }
 
-.score {
-  float: right;
-  margin: 1em;
+.score-time-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.score-time-wrapper div {
+  margin: 5px 15px 0 0;
+
 }
 
 .player-display {
@@ -80,56 +116,95 @@ div span {
   width: 50%;
 }
 
-.timer {
-  float: right;
-  margin: 5px 8px 5px 0;
-}
-
-.auto-solve {
-  width: 500px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.auto-solve input {
-  width: 35px;
-  height: 35px;
-  font-size: 1.2em;
-}
-
-.auto-solve button {
-  width: 30%;
-  height: 40px;
-  font-size: 1em;
-}
-
 #waiting {
   display: none;
 }
 
-#full-list {
-  width: 100%;
+/* SETTINGS */
+
+#settings {
+  width: 800px;
+  justify-content: center;
+  align-items: center;
 }
 
 .settings {
-  width: 500px;
+  display: flex; 
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
-.variant, .board, .language {
+.settings h3 {
+  width: 300px;
+}
+
+#settings h2 button {
+  width: 200px;
+  height: 40px;
+  font-size: .8em;
+  font-weight: 700;
+  border-radius: 5px;
+  background-color: darkblue;
+  color: white;
+  float: right;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.right-col {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  width: 100%;
+}
+
+.right-col input {
+  margin-right: 10px;
+}
+
+.info {
+  font-size: .8em;
+  font-weight: 200;
+  margin: 3px 0 10px 25px;
+  width: 90%;
+
 }
 
 .player-row {
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+}
+
+.player-row label {
+  width: 25%;
 }
 
 .player-row input {
-  width: 70%;
+  width: 90%;
+  padding: 0 5px;
+  height: 25px;
+  margin: 3px 0;
+  font-size: .8em;
+}
+
+.right-col button {
+  width: 130px;
+  height: 25px;
+  font-size: .8em;
+  margin-top: 10px;
+}
+
+#highlighted-list {
+  display: none;
 }

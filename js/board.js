@@ -1,10 +1,9 @@
-
-
 class Board {
   constructor(dimension, language) {
     this.dimension = dimension;
     this.dictionary = new Typo(language, false, false, { dictionaryPath: "Typo.js-master/typo/dictionaries" });
     this.letterMatrix = [];
+    this.words = [];
     for (var i=0; i<this.dimension; i++) {
       this.letterMatrix[i] = [];
       for (var j=0; j<this.dimension; j++) {
@@ -43,18 +42,20 @@ class Board {
   highlightWord(word, player, language) {
     let error = document.getElementById("error");
     if (language == "de") word = word.toUpperCase();
+    if (language == "en_US") word = word.toLowerCase();
     if (this.dictionary.check(word)) {
       let squares = this.findWord(word);
       if (Array.isArray(squares)) {
         squares.forEach(position => {
-          fill(color("#E7FEDF"));
+          fill(color(player.color));
           rect(SQUARE_SIDE*position.col, SQUARE_SIDE*position.row, SQUARE_SIDE, SQUARE_SIDE);
         }); 
-        if (!game.players.map(player => player.words).reduce((acc, cv) => acc.concat(cv), []).includes(word)) {
+        let wordList = game.speed ? game.players.map(player => player.words).reduce((acc, cv) => acc.concat(cv), []) : player.words;
+        if (!wordList.includes(word)) {
           document.getElementById(player.name + "-player-list").innerHTML += `<li>${word}</li>`;
-          player.score += word.length*10;
+          player.score += this.getScore(word);
           player.words.push(word);
-          document.getElementById(player.name + "-score").innerHTML = `Score: ${player.score}`;
+          document.getElementById(player.name + "-score").innerHTML = `pts: ${player.score}`;
         } else {
           error.innerHTML = `<h2>${word[0].toUpperCase() + word.slice(1)} already found!</h2>`;
         }
@@ -65,6 +66,25 @@ class Board {
     } else {
       let lang = language == "de" ? "German" : "English";
       error.innerHTML = `<h2>I'm sorry, ${word} is not a valid word in ${lang}.</h2>`;
+    }
+  }
+
+  getScore(word) {
+    switch (word.length) {
+      case 1:
+      case 2:
+        return 0; 
+      case 3:
+      case 4:
+        return 1;
+      case 5: 
+        return 2;
+      case 6: 
+        return 3;
+      case 7: 
+        return 5;
+      default: 
+        return 11;
     }
   }
 
@@ -112,7 +132,6 @@ class Board {
       }
     }
     if (paths.length != 0) {
-      console.log(paths);
       return this.checkNeighbors(paths, fullWord);
     }
     return ("nothing found");
@@ -123,63 +142,22 @@ class Board {
   }
 
 
-
-
   // Print generated solutions
 
-  findAllWords(min, max, language) {
+
+  findAllWords(language) {
     this.words = [];
-    let paths = [];
-    for (var i=0; i<this.dimension; i++) {
-      for (var j=0; j<this.dimension; j++) {
-        paths.push([{row: i, col: j, letter: this.letterMatrix[i][j]}]);
-      }
-    }
-    let n=2;
-    while (n<=max) {
-      this.generateNextHopPaths(paths, n);
-      n++;
-    }
-    paths.forEach(path => {
-      if (path.length < min) {
-        // do nothing
-      } else {
-        let word = this.getWordFromPath(path);
-        let checkDictionary = language == "de" ? this.dictionary.check(word) : this.dictionary.check(word.toLowerCase());
-        if (!this.words.includes(word) && checkDictionary) {
-          this.words.push(word);
-        }
+    let dictionaryWords = Object.keys(this.dictionary.dictionaryTable);
+    
+    dictionaryWords.forEach(word => {
+      let notProperNoun = language == "en_US" ? this.dictionary.check(word.toLowerCase()) : true;
+      if (notProperNoun && word.length > 2 && !this.words.includes(word.toUpperCase()) && Array.isArray(this.findWord(word))) {
+        this.words.push(word.toUpperCase());
       }
     });
+    this.words.sort((a, b) => a.length - b.length);
+    console.log(this.words);
     this.printAllWords();
-    document.getElementById("waiting").style.visibility = "hidden";
-    document.getElementById("waiting").style.display = "none";
-  }
-
-  getWordFromPath(path) {
-    return path.reduce((acc, val) => acc.concat(val.letter), "");
-  }
-
-  generateNextHopPaths(paths, n) {
-    paths.forEach(path => {
-      if (path.length < n) {
-        let position = path[path.length-1];
-        let rowStart = position.row - 1 < 0 ? 0 : position.row - 1;
-        let colStart = position.col - 1 < 0 ? 0 : position.col - 1;
-        let rowEnd = position.row + 2 > this.dimension ? this.dimension : position.row + 2;
-        let colEnd = position.col + 2 > this.dimension ? this.dimension : position.col + 2;
-        for (var i=rowStart; i< rowEnd; i++) {
-          for (var j=colStart; j< colEnd; j++) {
-            let positionOkay = game.generous ? true : !this.alreadyUsed(path, {row: i, col: j});
-            if (!(position.row == i && position.col == j) && /* !this.alreadyUsed(path, {row: i, col: j}) */ positionOkay) {
-              let pathCopy = Array.from(path);
-              pathCopy.push({row: i, col: j, letter: this.letterMatrix[i][j]});
-              paths.push(pathCopy);
-            }
-          }
-        }
-      }
-    });
   }
 
   printAllWords() {
@@ -188,9 +166,36 @@ class Board {
       html += "No words found.";
     }
     this.words.forEach(word => html += `<li>${word}</li>`);
-    document.getElementById("full-list").innerHTML = html;
+    this.createHighlightedList();
+    [...document.getElementsByClassName("score-time-wrapper")].forEach(elem => elem.style.display = "none");
+  }
+
+
+  createHighlightedList() {
+    let listPanel = document.getElementById("highlighted-list");
+    listPanel.style.display = "inline-block";
+    let list = document.createElement("ul");
+    let allWordsFound = game.players.map(player => player.words).reduce((acc, cv) => acc.concat(cv), []);
+    console.log(allWordsFound);
+    let multiples = allWordsFound.filter((elem, index, arr) => arr.indexOf(elem) === index && arr.lastIndexOf(elem) !== index);
+    console.log(multiples);
+    this.words.forEach(word => {
+      let listItem = document.createElement("li");
+      listItem.innerHTML = word;
+      if (multiples.includes(word) || multiples.includes(word.toLowerCase())) {
+        console.log("here");
+        listItem.innerHTML = `<span style="text-decoration:line-through">${word}</span>`; 
+      } else {
+        game.players.forEach(player => {
+          if (player.words.includes(word.toLowerCase()) || player.words.includes(word.toUpperCase())) listItem.innerHTML =`<span style='color: ${player.color}'>${word}</span>`; 
+        });
+      }
+      list.appendChild(listItem);
+    });
+    listPanel.appendChild(list);
   }
 
 }
+
 
 
