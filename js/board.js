@@ -142,8 +142,6 @@ class Board {
   }
 
 
-
-
   // Print generated solutions
 
 
@@ -170,12 +168,6 @@ class Board {
     this.words.forEach(word => html += `<li>${word}</li>`);
     this.createHighlightedList();
     [...document.getElementsByClassName("score-time-wrapper")].forEach(elem => elem.style.display = "none");
-    // if (game.isOver) {
-    //   this.createHighlightedList();
-    //   [...document.getElementsByClassName("score-time-wrapper")].forEach(elem => elem.style.display = "none");
-    // } else {
-    //   document.getElementById("full-list").innerHTML = html;
-    // }
   }
 
 
