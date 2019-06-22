@@ -40,14 +40,27 @@ function addPlayerInput() {
   let row = document.createElement("div");
   let label = document.createElement("label");
   label.innerHTML = "Player Name";
+  let inputButtonWrapper = document.createElement("div");
+  inputButtonWrapper.classList.add("new-player-input");
   let input = document.createElement("input");
   input.type = "text";
   input.placeholder = "Player " + Number(index+1);
   input.classList.add("player");
+  let remove = document.createElement("button");
+  remove.classList.add("remove");
+  remove.type = "button";
+  remove.innerHTML = "&#x1F5D1;";
+  remove.onclick = this.removePlayerInput;
+  inputButtonWrapper.appendChild(input);
+  inputButtonWrapper.appendChild(remove);
   row.appendChild(label);
-  row.appendChild(input);
+  row.appendChild(inputButtonWrapper);
   row.classList.add("player-row");
   playersList.insertBefore(row, button);
+}
+
+function removePlayerInput(e) {
+  document.getElementById("players-list").removeChild(e.currentTarget.parentNode.parentNode);
 }
 
 

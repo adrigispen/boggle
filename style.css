@@ -187,15 +187,27 @@ div span {
 }
 
 .player-row label {
-  width: 25%;
+  width: 120px;
+}
+
+.player-row .new-player-input {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .player-row input {
-  width: 90%;
   padding: 0 5px;
   height: 25px;
   margin: 3px 0;
   font-size: .8em;
+  width: 90%;
+}
+
+.player-row input:first-child {
+  width: 100%;
 }
 
 .right-col button {
@@ -207,4 +219,12 @@ div span {
 
 #highlighted-list {
   display: none;
+}
+
+.right-col .remove {
+  width: 35px; 
+  height: 30px;
+  font-size: .7em;
+  border-radius: 0 5px 5px 0;
+  margin: 1px 0;
 }

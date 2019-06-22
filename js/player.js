@@ -14,6 +14,7 @@ class Player {
     document.getElementById(this.name + "-name").style.color = this.color;
     document.getElementById(this.name + "-timer").style.color = this.color;
     document.getElementById(this.name + "-player-list").style.display = "inline-block";
+    if (!game.speed) document.getElementById(this.name + "-turn-done").disabled = false;
     game.players.forEach(player => {
       if (player.name != this.name) { 
         document.getElementById(player.name + "-wrapper").style.overflowY = "hidden";
@@ -52,6 +53,7 @@ class Player {
     doneButton.id = this.name + "-turn-done";
     doneButton.innerHTML = "End turn";
     doneButton.onclick = () => game.changePlayer();
+    doneButton.disabled = true;
     let hr = document.createElement("hr");
 
     orderedList.appendChild(listItems);
